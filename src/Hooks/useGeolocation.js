@@ -25,7 +25,10 @@ function useGeolocation(defaultPosition = null) {
     );
   }
 
+  console.log(position);
+
   // getPosition();
+  // decided to run this function quickly
   return { isLoading, position, error, getPosition };
 }
 

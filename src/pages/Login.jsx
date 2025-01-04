@@ -4,12 +4,15 @@ import styles from "./Login.module.css";
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { UseAuth } from "../contexts/FakeAuthentication";
+import { useGeolocation } from "../Hooks/useGeolocation";
 export default function Login() {
   // PRE-FILL FOR DEV PURPOSES
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty");
   const navigate = useNavigate();
   const { login, isAuthenticated } = UseAuth();
+
+  const { getPosition } = useGeolocation();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -20,6 +23,7 @@ export default function Login() {
   useEffect(
     function () {
       if (isAuthenticated) navigate(`/app`, { replace: true });
+      getPosition();
     },
     [isAuthenticated, navigate]
   );

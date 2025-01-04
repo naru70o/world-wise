@@ -12,7 +12,7 @@ import SpinnerFullPage from "./components/SpinnerFullPage";
 import { ContextProvider } from "./contexts/CitiesContext";
 import { AuthProvider } from "./contexts/FakeAuthentication";
 import ProtectedRoute from "./components/ProtectedRoute";
-//
+
 // import Pricing from "./pages/Pricing";
 // import Login from "./pages/Login";
 // import Homepage from "./pages/Homepage";

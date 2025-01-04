@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import L from "leaflet";
 import {
   MapContainer,
   Marker,
@@ -16,7 +17,11 @@ import styles from "./Map.module.css";
 
 function Map() {
   const [mapPosition, setMapPosition] = useState([40, 0]);
-  const { cities, createCity } = UseCities();
+  const [userLocation, setUserLocation] = useState([]);
+  // const [lat, lng] = userLocation ?? null;
+
+  const { cities } = UseCities();
+
   const {
     isLoading: isLoadingPosition,
     position: GeolocationPosition,
@@ -24,6 +29,10 @@ function Map() {
   } = useGeolocation();
 
   const [mapLat, mapLng] = UseUrlPosition();
+
+  useEffect(() => {
+    getPosition();
+  }, []);
 
   useEffect(() => {
     if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
@@ -34,6 +43,14 @@ function Map() {
       setMapPosition([GeolocationPosition.lat, GeolocationPosition.lng]);
   }, [GeolocationPosition]);
   //
+
+  useEffect(() => {
+    if (GeolocationPosition)
+      setUserLocation([GeolocationPosition.lat, GeolocationPosition.lng]);
+  }, [GeolocationPosition]);
+
+  // this needs to render, with out it blocking the code
+
   return (
     <div className={styles.mapContainer}>
       <Button type="position" onClick={getPosition}>
@@ -49,6 +66,7 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+
         {cities.map((city) => {
           const cityLat = city.position?.lat;
           const cityLng = city.position?.lng;
@@ -61,6 +79,13 @@ function Map() {
             </Marker>
           );
         })}
+
+        <Marker position={[userLocation?.lat, userLocation?.lng]}>
+          <Popup>
+            <span>your Location</span>
+          </Popup>
+        </Marker>
+
         <DitectClick />
         <ChangeCenter position={mapPosition} />
       </MapContainer>

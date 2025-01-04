@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 
 const BASE_URL = "http://localhost:9000/";
+
 const citiesProvider = createContext();
 
 const initialState = {
@@ -148,7 +149,6 @@ function ContextProvider({ children }) {
 
 function UseCities() {
   const context = useContext(citiesProvider);
-  // console.log(context);
   if (context === undefined)
     throw new Error("can't use this HOOK outside of the CitiesProvider");
   return context;
