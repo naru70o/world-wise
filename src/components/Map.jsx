@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import L from "leaflet";
+import { Icon } from "leaflet";
 import {
   MapContainer,
   Marker,
@@ -17,10 +17,18 @@ import styles from "./Map.module.css";
 
 function Map() {
   const [mapPosition, setMapPosition] = useState([40, 0]);
-  const [userLocation, setUserLocation] = useState([]);
-  // const [lat, lng] = userLocation ?? null;
 
   const { cities } = UseCities();
+  const [lat, lng] = mapPosition;
+
+  const usersCurrentLoc = new Icon({
+    iconUrl: "https://img.icons8.com/office/40/standing-man.png",
+    iconSize: [30, 30], // size of the icon
+    shadowSize: [30, 30], // size of the shadow
+    iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62], // the same for the shadow
+    popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+  });
 
   const {
     isLoading: isLoadingPosition,
@@ -30,9 +38,9 @@ function Map() {
 
   const [mapLat, mapLng] = UseUrlPosition();
 
-  useEffect(() => {
-    getPosition();
-  }, []);
+  // useEffect(() => {
+  //   getPosition();
+  // }, []);
 
   useEffect(() => {
     if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
@@ -43,11 +51,6 @@ function Map() {
       setMapPosition([GeolocationPosition.lat, GeolocationPosition.lng]);
   }, [GeolocationPosition]);
   //
-
-  useEffect(() => {
-    if (GeolocationPosition)
-      setUserLocation([GeolocationPosition.lat, GeolocationPosition.lng]);
-  }, [GeolocationPosition]);
 
   // this needs to render, with out it blocking the code
 
@@ -80,7 +83,10 @@ function Map() {
           );
         })}
 
-        <Marker position={[userLocation?.lat, userLocation?.lng]}>
+        {/*
+        https://img.icons8.com/office/40/standing-man.png
+         */}
+        <Marker position={[lat, lng]} icon={usersCurrentLoc}>
           <Popup>
             <span>your Location</span>
           </Popup>
