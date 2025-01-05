@@ -16,18 +16,19 @@ import UseUrlPosition from "../Hooks/UseUrlPosition";
 import styles from "./Map.module.css";
 
 function Map() {
-  const [mapPosition, setMapPosition] = useState([40, 0]);
+  const [mapPosition, setMapPosition] = useState([0, 0]);
+  console.log(mapPosition);
 
   const { cities } = UseCities();
   const [lat, lng] = mapPosition;
 
   const usersCurrentLoc = new Icon({
-    iconUrl: "https://img.icons8.com/office/40/standing-man.png",
-    iconSize: [30, 30], // size of the icon
-    shadowSize: [30, 30], // size of the shadow
-    iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62], // the same for the shadow
-    popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+    iconUrl: "/person.png",
+
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    shadowAnchor: [4, 62],
+    popupAnchor: [-3, -76],
   });
 
   const {
